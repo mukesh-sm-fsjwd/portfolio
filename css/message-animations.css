@@ -1,0 +1,134 @@
+/* ============================================
+   MESSAGE BADGE ANIMATION
+   ============================================ */
+
+/* Pulse animation for new messages */
+@keyframes messagePulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(0, 212, 255, 0.7);
+    }
+
+    50% {
+        transform: scale(1.1);
+        box-shadow: 0 0 0 10px rgba(0, 212, 255, 0);
+    }
+}
+
+@keyframes badgeShake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+        transform: translateX(-2px);
+    }
+
+    20%,
+    40%,
+    60%,
+    80% {
+        transform: translateX(2px);
+    }
+}
+
+/* Message badge styling */
+.nav-item .badge {
+    animation: messagePulse 2s ease-in-out infinite;
+}
+
+.nav-item .badge.new-message {
+    animation: messagePulse 1.5s ease-in-out infinite, badgeShake 0.5s ease-in-out;
+}
+
+/* Glow effect for Messages nav item when new messages */
+.nav-item.has-new-messages {
+    position: relative;
+}
+
+.nav-item.has-new-messages::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, #00d4ff, #00a8cc);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+    animation: glowPulse 2s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+    }
+
+    50% {
+        opacity: 0.6;
+        box-shadow: 0 0 30px rgba(0, 212, 255, 0.8);
+    }
+}
+
+/* Notification dot */
+.nav-item .notification-dot {
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    background: #00d4ff;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
+    animation: dotPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+
+    0%,
+    100% {
+        transform: translateY(-50%) scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: translateY(-50%) scale(1.3);
+        opacity: 0.7;
+    }
+}
+
+/* Dashboard message card highlight */
+.stat-card.messages-card.has-new {
+    border-color: rgba(0, 212, 255, 0.6);
+    box-shadow:
+        0 4px 20px rgba(0, 212, 255, 0.2),
+        0 0 40px rgba(0, 212, 255, 0.1);
+    animation: cardGlow 2s ease-in-out infinite;
+}
+
+@keyframes cardGlow {
+
+    0%,
+    100% {
+        box-shadow:
+            0 4px 20px rgba(0, 212, 255, 0.2),
+            0 0 40px rgba(0, 212, 255, 0.1);
+    }
+
+    50% {
+        box-shadow:
+            0 4px 30px rgba(0, 212, 255, 0.4),
+            0 0 60px rgba(0, 212, 255, 0.2);
+    }
+}

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Portfolio</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.9em' font-size='90'%3E⚙️%3C/text%3E%3C/svg%3E">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/tech-selector.css">
+    <link rel="stylesheet" href="css/form-fixes.css">
+    <link rel="stylesheet" href="css/resume-management.css">
+    <link rel="stylesheet" href="css/confirm-modal.css">
+    <link rel="stylesheet" href="css/message-animations.css">
+</head>
+
+<body class="admin-body">
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-screen">
+        <div class="login-container card-3d">
+            <div class="login-header">
+                <div class="login-logo">
+                    <span class="logo-bracket">&lt;</span>
+                    <span class="logo-text">Admin</span>
+                    <span class="logo-bracket">/&gt;</span>
+                </div>
+                <h2>Portfolio Admin Panel</h2>
+                <p>Enter your credentials to access the dashboard</p>
+            </div>
+
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label for="username">
+                        <i class="fas fa-user"></i> Username
+                    </label>
+                    <input type="text" id="username" name="username" required autocomplete="username">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">
+                        <i class="fas fa-lock"></i> Password
+                    </label>
+                    <input type="password" id="password" name="password" required autocomplete="current-password">
+                </div>
+
+                <div class="login-error" id="loginError"></div>
+
+                <button type="submit" class="btn btn-primary btn-block">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>Login</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="adminDashboard" class="admin-dashboard" style="display: none;">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <span class="logo-bracket">&lt;</span>
+                    <span class="logo-text">Admin</span>
+                    <span class="logo-bracket">/&gt;</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="#dashboard" class="nav-item active" data-section="dashboard">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#profile" class="nav-item" data-section="profile">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </a>
+                <a href="#skills" class="nav-item" data-section="skills">
+                    <i class="fas fa-code"></i>
+                    <span>Skills</span>
+                </a>
+                <a href="#projects" class="nav-item" data-section="projects">
+                    <i class="fas fa-folder"></i>
+                    <span>Projects</span>
+                </a>
+                <a href="#certificates" class="nav-item" data-section="certificates">
+                    <i class="fas fa-certificate"></i>
+                    <span>Certificates</span>
+                </a>
+                <a href="#messages" class="nav-item" data-section="messages">
+                    <i class="fas fa-envelope"></i>
+                    <span>Messages</span>
+                    <span class="badge" id="messageCount">0</span>
+                </a>
+                <a href="#resume" class="nav-item" data-section="resume">
+                    <i class="fas fa-file-pdf"></i>
+                    <span>Resume</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="btn btn-outline btn-block" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Header -->
+            <header class="admin-header">
+                <div class="header-left">
+                    <h1 id="sectionTitle">Dashboard</h1>
+                </div>
+                <div class="header-right">
+                    <a href="index.html" class="btn btn-primary" target="_blank">
+                        <i class="fas fa-eye"></i>
+                        <span>View Portfolio</span>
+                    </a>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <div class="admin-content">
+                <!-- Dashboard Section -->
+                <section id="section-dashboard" class="admin-section active">
+                    <div class="stats-grid">
+                        <div class="stat-card card-3d">
+                            <div class="stat-icon">
+                                <i class="fas fa-folder"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="totalProjects">0</h3>
+                                <p>Total Projects</p>
+                            </div>
+                        </div>
+                        <div class="stat-card card-3d">
+                            <div class="stat-icon">
+                                <i class="fas fa-certificate"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="totalCertificates">0</h3>
+                                <p>Certificates</p>
+                            </div>
+                        </div>
+                        <div class="stat-card card-3d">
+                            <div class="stat-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="totalMessages">0</h3>
+                                <p>Messages</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-widgets">
+                        <div class="widget card-3d">
+                            <h3>Recent Activity</h3>
+                            <div id="activityList" class="activity-list">
+                                <!-- Activity items will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Profile Section -->
+                <section id="section-profile" class="admin-section">
+                    <form id="profileForm" class="admin-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="profileName">Full Name</label>
+                                <input type="text" id="profileName" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="profileTitle">Professional Title</label>
+                                <input type="text" id="profileTitle" name="title" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="profilePunchline">Punchline</label>
+                            <input type="text" id="profilePunchline" name="punchline" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="profileAbout">About Me</label>
+                            <textarea id="profileAbout" name="about" rows="6" required></textarea>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="profileEmail">Email</label>
+                                <input type="email" id="profileEmail" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="profilePhone">Phone</label>
+                                <input type="tel" id="profilePhone" name="phone" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="profileLocation">Location</label>
+                            <input type="text" id="profileLocation" name="location" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Profile Image</label>
+                            <input type="file" id="profileImageInput" accept="image/*" style="display:none;">
+                            <input type="hidden" id="profileImageData" name="profileImage">
+                            <button type="button" class="btn btn-secondary"
+                                onclick="document.getElementById('profileImageInput').click()">
+                                <i class="fas fa-upload"></i> Choose Image
+                            </button>
+                            <div id="profileImagePreview"></div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i>
+                            <span>Save Profile</span>
+                        </button>
+                    </form>
+                </section>
+
+                <section id="section-skills" class="admin-section">
+                    <div class="section-header-admin">
+                        <h2>Manage Skills</h2>
+                        <div style="display: flex; gap: 1rem;">
+                            <button class="btn btn-primary" id="addSkillBtn">
+                                <i class="fas fa-plus"></i>
+                                <span>Add Skill</span>
+                            </button>
+                            <button class="btn btn-secondary" id="addSkillCategoryBtn">
+                                <i class="fas fa-folder-plus"></i>
+                                <span>Add Category</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="skillsList" class="items-list">
+                        <!-- Skills will be loaded here -->
+                    </div>
+                </section>
+
+                <!-- Projects Section -->
+                <section id="section-projects" class="admin-section">
+                    <div class="section-header-admin">
+                        <h2>Manage Projects</h2>
+                        <button class="btn btn-primary" id="addProjectBtn">
+                            <i class="fas fa-plus"></i>
+                            <span>Add Project</span>
+                        </button>
+                    </div>
+                    <div id="projectsList" class="items-list">
+                        <!-- Projects will be loaded here -->
+                    </div>
+                </section>
+
+                <!-- Certificates Section -->
+                <section id="section-certificates" class="admin-section">
+                    <div class="section-header-admin">
+                        <h2>Manage Certificates</h2>
+                        <button class="btn btn-primary" id="addCertificateBtn">
+                            <i class="fas fa-plus"></i>
+                            <span>Add Certificate</span>
+                        </button>
+                    </div>
+                    <div id="certificatesList" class="items-list">
+                        <!-- Certificates will be loaded here -->
+                    </div>
+                </section>
+
+                <!-- Messages Section -->
+                <section id="section-messages" class="admin-section">
+                    <div class="section-header-admin">
+                        <h2>Contact Messages</h2>
+                    </div>
+                    <div id="messagesList" class="messages-list">
+                        <!-- Messages will be loaded here -->
+                    </div>
+                </section>
+
+                <!-- Resume Section -->
+                <section id="section-resume" class="admin-section">
+                    <div class="section-header-admin">
+                        <h2>Resume Management</h2>
+                    </div>
+                    <div class="resume-management">
+                        <div class="resume-upload-card card-3d">
+                            <div class="upload-area" id="resumeUploadArea">
+                                <div class="upload-icon">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                </div>
+                                <h3>Upload Resume</h3>
+                                <p>Click or drag and drop your PDF file here</p>
+                                <small>Maximum file size: 5MB</small>
+                                <input type="file" id="resumeInput" accept=".pdf" style="display: none;">
+                            </div>
+                        </div>
+                        <div id="currentResume" class="current-resume-section">
+                            <!-- Current resume will be shown here -->
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content card-3d">
+            <div class="modal-header">
+                <h2 id="modalTitle">Modal Title</h2>
+                <button class="modal-close" id="modalClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Modal content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/admin.js"></script>
+</body>
+
+</html>

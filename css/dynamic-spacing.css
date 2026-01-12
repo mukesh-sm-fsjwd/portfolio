@@ -1,0 +1,46 @@
+/* Dynamic Section Spacing */
+
+/* Default section spacing */
+section {
+    padding: var(--spacing-3xl) 0;
+    position: relative;
+    min-height: auto;
+    transition: all 0.3s ease;
+}
+
+/* Hide empty sections completely */
+section.hidden-section {
+    display: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    min-height: 0 !important;
+}
+
+/* Compact spacing for sections with minimal content */
+section.compact-section {
+    padding: var(--spacing-lg) 0;
+}
+
+/* Full spacing for sections with content */
+section.full-section {
+    padding: var(--spacing-3xl) 0;
+}
+
+/* Auto-hide empty sections using CSS */
+section:empty {
+    display: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Flexbox layout for dynamic spacing */
+main {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+/* Remove extra spacing between sections */
+section+section {
+    margin-top: 0;
+}

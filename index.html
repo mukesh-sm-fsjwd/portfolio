@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Professional Backend Engineer specializing in Java and Spring Boot - Portfolio showcasing projects, skills, and experience">
+    <meta name="keywords" content="Backend Engineer, Java, Spring Boot, Full Stack Developer, Software Engineer">
+    <meta name="author" content="Mukesh SM">
+    <title>Mukesh SM</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.9em' font-size='90'%3E💼%3C/text%3E%3C/svg%3E">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/certificates.css">
+    <link rel="stylesheet" href="css/project-tech-icons.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
+
+    <!--Infinite Scroll Animation Skills -->
+    <link rel="stylesheet" href="css/infinite-scroll-skills.css">
+
+    <!-- Certificates Styling -->
+    <link rel="stylesheet" href="css/certificates.css">
+
+    <!-- Animated SVG Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+
+
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-bracket">&lt;</span>
+                <span class="logo-text">Mukesh SM</span>
+                <span class="logo-bracket">/&gt;</span>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#certificates" class="nav-link">Certificates</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="#contact" class="btn-nav-cta">Hire Me</a>
+                <button class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="hero-background">
+            <div class="grid-overlay"></div>
+            <div class="gradient-orb orb-1"></div>
+            <div class="gradient-orb orb-2"></div>
+            <div class="gradient-orb orb-3"></div>
+        </div>
+
+        <div class="hero-content">
+            <div class="hero-text">
+                <div class="hero-greeting" data-aos="fade-up">
+                    <span class="greeting-icon">👋</span>
+                    <span>Hello, I'm</span>
+                </div>
+                <h1 class="hero-name" data-aos="fade-up" data-aos-delay="100">
+                    <span class="name-highlight" id="heroName">Your Name</span>
+                </h1>
+                <h2 class="hero-title" data-aos="fade-up" data-aos-delay="200">
+                    <span class="typing-text" id="typingText"></span>
+                    <span class="cursor">|</span>
+                </h2>
+                <p class="hero-description" data-aos="fade-up" data-aos-delay="300" id="heroPunchline">
+                    Building scalable backend systems with Java & Spring Boot.
+                    Transforming complex problems into elegant solutions.
+                </p>
+                <div class="hero-cta" data-aos="fade-up" data-aos-delay="400">
+                    <a href="#projects" class="btn btn-primary">
+                        <span>View My Work</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <a href="#contact" class="btn btn-secondary">
+                        <span>Get In Touch</span>
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+                <div class="hero-social" data-aos="fade-up" data-aos-delay="500">
+                    <a href="https://github.com/mukesh-sm-fsjwd/mukesh-sm-fsjwd" class="social-link" target="_blank"
+                        rel="noopener">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/mukesh-sm-fsjwd/" class="social-link" target="_blank"
+                        rel="noopener">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://leetcode.com/u/MukeshSm_javafsd/" class="social-link" target="_blank"
+                        rel="noopener">
+                        <i class="fa-solid fa-laptop-code"></i>
+                    </a>
+                    <a href="mailto:smmukesh.ai369@gmail.com" class="social-link" target="_blank" rel="noopener">
+                        <i class="fa-solid fa-message"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="hero-visual" data-aos="fade-left" data-aos-delay="600">
+                <div class="floating-card card-3d">
+                    <div class="card-glow"></div>
+                    <div class="code-window">
+                        <div class="window-header">
+                            <div class="window-buttons">
+                                <span class="btn-close"></span>
+                                <span class="btn-minimize"></span>
+                                <span class="btn-maximize"></span>
+                            </div>
+                            <div class="window-title">Application.java</div>
+                        </div>
+                        <div class="code-content">
+                            <pre><code><span class="code-keyword">@SpringBootApplication</span>
+<span class="code-keyword">public class</span> <span class="code-class">Application</span> {
+    <span class="code-keyword">public static void</span> <span class="code-method">main</span>(String[] args) {
+        SpringApplication.<span class="code-method">run</span>(Application.class, args);
+        System.out.<span class="code-method">println</span>(<span class="code-string">"Building the future..."</span>);
+    }
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="scroll-indicator" id="scrollIndicator" data-aos="fade-up" data-aos-delay="700">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+            <p>Scroll to explore</p>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <span class="section-label">Get To Know Me</span>
+                <h2 class="section-title">About Me</h2>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="about-content">
+                <div class="about-image" data-aos="fade-right">
+                    <div class="image-wrapper card-3d">
+                        <div class="image-glow"></div>
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='%231a1a2e' width='400' height='400'/%3E%3Ctext fill='%2300d4ff' font-family='Arial' font-size='48' x='50%25' y='50%25' text-anchor='middle' dominant-baseline='middle'%3EProfile%3C/text%3E%3C/svg%3E"
+                            alt="Profile Picture" id="aboutImage">
+                        <div class="image-overlay">
+                            <div class="stats-grid">
+                                <div class="stat-item">
+                                    <span class="stat-number" id="projectsCount">15+</span>
+                                    <span class="stat-label">Projects</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number" id="experienceYears">3rd</span>
+                                    <span class="stat-label">Year</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-text" data-aos="fade-left">
+                    <div class="text-content" id="aboutContent">
+                        <p class="lead-text">
+                            I'm a passionate Backend Engineer with a deep focus on building robust,
+                            scalable systems using Java and Spring Boot.
+                        </p>
+                        <p>
+                            My journey in software development began with a fascination for how things work
+                            behind the scenes. Over the years, I've honed my skills in designing RESTful APIs,
+                            microservices architecture, and database optimization.
+                        </p>
+                        <p>
+                            While my expertise lies in backend development, I'm constantly expanding my
+                            full-stack capabilities, exploring modern frontend frameworks and cloud technologies
+                            to deliver end-to-end solutions.
+                        </p>
+                        <p>
+                            When I'm not coding, you'll find me exploring new technologies, contributing to
+                            open-source projects, or writing technical articles to share knowledge with the
+                            developer community.
+                        </p>
+                    </div>
+
+                    <div class="about-highlights">
+                        <div class="highlight-item">
+                            <i class="fas fa-code"></i>
+                            <div>
+                                <h4>Clean Code Advocate</h4>
+                                <p>Writing maintainable, testable code</p>
+                            </div>
+                        </div>
+                        <div class="highlight-item">
+                            <i class="fas fa-rocket"></i>
+                            <div>
+                                <h4>Performance Focused</h4>
+                                <p>Optimizing for speed and scalability</p>
+                            </div>
+                        </div>
+                        <div class="highlight-item">
+                            <i class="fas fa-users"></i>
+                            <div>
+                                <h4>Team Player</h4>
+                                <p>Collaborative problem solver</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="about-actions">
+                        <a href="assets/resume.pdf" class="btn btn-primary" download id="downloadResume">
+                            <i class="fas fa-download"></i>
+                            <span>Download Resume</span>
+                        </a>
+                        <a href="#contact" class="btn btn-outline">
+                            <span>Contact Me</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills-section">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <span class="section-label">My Expertise</span>
+                <h2 class="section-title">Skills & Technologies</h2>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="skills-container" id="skillsContainer">
+                <!-- Skills will be dynamically loaded -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects-section">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <span class="section-label">My Work</span>
+                <h2 class="section-title">Featured Projects</h2>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="projects-filter" data-aos="fade-up">
+                <button class="filter-btn active" data-filter="all">All Projects</button>
+                <button class="filter-btn" data-filter="completed">Completed</button>
+                <button class="filter-btn" data-filter="development">In Development</button>
+            </div>
+
+            <div class="projects-grid" id="projectsGrid">
+                <!-- Projects will be dynamically loaded -->
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Certificates Section -->
+    <section id="certificates" class="certificates-section">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <span class="section-label">Achievements</span>
+                <h2 class="section-title">Certificates & Credentials</h2>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="certificates-grid" id="certificatesGrid">
+                <!-- Certificates will be dynamically loaded -->
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <span class="section-label">Let's Connect</span>
+                <h2 class="section-title">Get In Touch</h2>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="contact-content">
+                <div class="contact-info" data-aos="fade-right">
+                    <div class="info-card card-3d">
+                        <h3>Let's work together</h3>
+                        <p>I'm always open to discussing new projects, creative ideas, or opportunities to be part of
+                            your vision.</p>
+
+                        <div class="contact-details">
+                            <div class="detail-item">
+                                <i class="fas fa-envelope"></i>
+                                <div>
+                                    <span class="detail-label">Email</span>
+                                    <a href="mailto:your.email@example.com" id="contactEmail">your.email@example.com</a>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-phone"></i>
+                                <div>
+                                    <span class="detail-label">Phone</span>
+                                    <a href="tel:+1234567890" id="contactPhone">+1 (234) 567-890</a>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <div>
+                                    <span class="detail-label">Location</span>
+                                    <span id="contactLocation">Your City, Country</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="social-links">
+                            <a href="https://github.com/mukesh-sm-fsjwd/mukesh-sm-fsjwd" class="social-link"
+                                target="_blank" rel="noopener">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="https://www.linkedin.com/in/mukesh-sm-fsjwd/" class="social-link" target="_blank"
+                                rel="noopener">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="https://leetcode.com/u/MukeshSm_javafsd/" class="social-link" target="_blank"
+                                rel="noopener">
+                                <i class="fa-solid fa-laptop-code"></i>
+
+                            </a>
+                            <a href="mailto:smmukesh.ai369@gmail.com" class="social-link" target="_blank"
+                                rel="noopener">
+                                <i class="fa-solid fa-message"></i>
+                            </a>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div class="contact-form-wrapper" data-aos="fade-left">
+                    <form class="contact-form card-3d" id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Your Name</label>
+                            <input type="text" id="name" name="name" autocomplete="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Your Email</label>
+                            <input type="email" id="email" name="email" autocomplete="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" name="subject" autocomplete="off" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="5" autocomplete="off" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <span>Send Message</span>
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <span class="logo-bracket">&lt;</span>
+                        <span class="logo-text">DevPortfolio</span>
+                        <span class="logo-bracket">/&gt;</span>
+                    </div>
+                    <p>Building the future, one line of code at a time.</p>
+                </div>
+
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Quick Links</h4>
+                        <ul>
+                            <li><a href="#home">Home</a></li>
+                            <li><a href="#about">About</a></li>
+                            <li><a href="#projects">Projects</a></li>
+                            <li><a href="#contact">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Resources</h4>
+                        <ul>
+                            <li><a href="#skills">Skills</a></li>
+                            <li><a href="#certificates">Certificates</a></li>
+                            <li><a href="assets/resume.pdf" download id="footerResumeLink">Resume</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 DevPortfolio. All rights reserved.</p>
+                <p>Designed & Developed By Mukesh SM <i class="fas fa-heart"></i></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/aos.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>

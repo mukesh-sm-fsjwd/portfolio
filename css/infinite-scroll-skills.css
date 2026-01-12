@@ -1,0 +1,190 @@
+/* Infinite Scroll Skills Animation */
+
+.skills-infinite-scroll {
+    width: 100%;
+    overflow: hidden;
+    padding: 4rem 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 212, 255, 0.03) 50%, rgba(0, 0, 0, 0) 100%);
+}
+
+.scroll-row {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    white-space: nowrap;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    width: max-content;
+    /* CRITICAL: Prevents flexbox from crushing items */
+}
+
+/* Row 1: Languages - Right to Left */
+.scroll-row-1 {
+    animation: scrollRightToLeft 20s linear infinite;
+}
+
+/* Row 2: Frameworks - Left to Right */
+.scroll-row-2 {
+    animation: scrollLeftToRight 25s linear infinite;
+}
+
+/* Row 3: Database - Right to Left */
+.scroll-row-3 {
+    animation: scrollRightToLeft 22s linear infinite;
+}
+
+/* Row 4: Tools - Left to Right */
+.scroll-row-4 {
+    animation: scrollLeftToRight 24s linear infinite;
+}
+
+/* Skill Item Card */
+.skill-scroll-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.2rem 2rem;
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(255, 0, 255, 0.1));
+    border: 2px solid rgba(0, 212, 255, 0.3);
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #fff;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+    /* CRITICAL: Prevents item from being crushed */
+}
+
+.skill-scroll-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.skill-scroll-item:hover::before {
+    left: 100%;
+}
+
+.skill-scroll-item:hover {
+    transform: translateY(-5px) scale(1.05);
+    border-color: rgba(0, 212, 255, 0.6);
+    box-shadow: 0 10px 30px rgba(0, 212, 255, 0.4);
+}
+
+.skill-scroll-item i {
+    font-size: 2rem;
+    flex-shrink: 0;
+}
+
+.skill-scroll-item span {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #fff;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+/* Devicon colored icons */
+.skill-scroll-item i.colored {
+    color: inherit !important;
+}
+
+/* Animations */
+@keyframes scrollRightToLeft {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-10%);
+    }
+}
+
+@keyframes scrollLeftToRight {
+    0% {
+        transform: translateX(-10%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+/* Pause on hover */
+.scroll-row:hover {
+    animation-play-state: paused;
+}
+
+/* Category Label */
+.scroll-category-label {
+    position: absolute;
+    left: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.9), rgba(255, 0, 255, 0.9));
+    padding: 0.5rem 1.5rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    z-index: 10;
+    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.5);
+}
+
+.scroll-row-wrapper {
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+/* Gradient Fade on Edges */
+.skills-infinite-scroll::before,
+.skills-infinite-scroll::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 200px;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.skills-infinite-scroll::before {
+    left: 0;
+    background: linear-gradient(90deg, #000 0%, transparent 100%);
+}
+
+.skills-infinite-scroll::after {
+    right: 0;
+    background: linear-gradient(270deg, #000 0%, transparent 100%);
+}
+
+.skills-infinite-scroll {
+    position: relative;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .skill-scroll-item {
+        padding: 0.8rem 1.5rem;
+        font-size: 0.9rem;
+    }
+
+    .skill-scroll-item i {
+        font-size: 1.5rem;
+    }
+
+    .scroll-category-label {
+        font-size: 0.75rem;
+        padding: 0.4rem 1rem;
+    }
+}

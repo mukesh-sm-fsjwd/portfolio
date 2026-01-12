@@ -1,0 +1,52 @@
+# Environment Variables (NEVER COMMIT!)
+.env
+.env.local
+.env.production
+
+# Dependencies
+node_modules/
+package-lock.json
+
+# User Uploaded Files
+uploads/
+uploads/projects/
+uploads/certificates/
+uploads/resumes/
+
+# Database
+*.sql
+*.db
+*.sqlite
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# OS Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary Files
+*.tmp
+*.temp
+.cache/
+
+# Build Files
+dist/
+build/
+
+# Backup Files
+*.bak
+*.backup
+
+# Session Files
+sessions/

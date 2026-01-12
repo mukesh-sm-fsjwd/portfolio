@@ -1,0 +1,30 @@
+/* Fix for Status Dropdown Visibility */
+
+select {
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    border-radius: 8px;
+}
+
+select option {
+    background: #1a1a2e !important;
+    color: #ffffff !important;
+    padding: 10px;
+    font-size: 1rem;
+}
+
+select option:hover {
+    background: rgba(0, 212, 255, 0.2) !important;
+}
+
+/* Make sure all form inputs are visible */
+input[type="text"],
+input[type="url"],
+input[type="date"],
+input[type="file"],
+textarea {
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+}
