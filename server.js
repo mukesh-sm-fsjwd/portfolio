@@ -17,6 +17,9 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Trust Nginx reverse proxy (fixes X-Forwarded-For / rate limiter issues)
+app.set('trust proxy', 1);
+
 // ============================================
 // DATABASE CONNECTION POOL
 // ============================================
@@ -97,13 +100,13 @@ const loginLimiter = rateLimit({
 // ============================================
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        let uploadPath = 'uploads/';
+        let uploadPath = path.join(__dirname, 'uploads');
         if (file.fieldname === 'image' || file.fieldname === 'profileImage') {
-            uploadPath += 'images/';
+            uploadPath = path.join(__dirname, 'uploads', 'images');
         } else if (file.fieldname === 'pdf') {
-            uploadPath += 'pdfs/';
+            uploadPath = path.join(__dirname, 'uploads', 'pdfs');
         } else if (file.fieldname === 'resume') {
-            uploadPath += 'resumes/';
+            uploadPath = path.join(__dirname, 'uploads', 'resumes');
         }
         cb(null, uploadPath);
     },
