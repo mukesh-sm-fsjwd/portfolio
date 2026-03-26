@@ -2,7 +2,7 @@
 // ADMIN PANEL - STREAMLINED FOR FRESHERS
 // ===================================
 
-const API_URL = 'http://localhost:3000/api';
+const API_URL = '/api';
 
 // Default admin credentials
 const DEFAULT_CREDENTIALS = {
@@ -181,7 +181,6 @@ class ImageHandler {
         if (file && file.type.startsWith('image/')) {
             const reader = new FileReader();
             reader.onload = (e) => {
-                // Show simple crop modal
                 this.showCropModal(e.target.result, callback);
             };
             reader.readAsDataURL(file);
@@ -191,40 +190,54 @@ class ImageHandler {
     }
 
     static showCropModal(imageDataUrl, callback) {
+        // Remove any existing crop modal
+        document.getElementById('cropModal')?.remove();
+
         const modal = document.createElement('div');
         modal.id = 'cropModal';
         modal.style.cssText = `
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.95);
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.96);
             z-index: 10000;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 2rem;
+            padding: 1rem;
         `;
 
         modal.innerHTML = `
-            <div style="background: var(--color-bg-card); padding: 2rem; border-radius: 1rem; max-width: 600px; width: 100%;">
-                <h3 style="margin-bottom: 1rem; color: var(--color-text-primary);">Crop & Edit Image</h3>
-                <div style="text-align: center; margin-bottom: 1rem;">
-                    <img id="cropImage" src="${imageDataUrl}" style="max-width: 100%; max-height: 400px; border-radius: 0.5rem;">
+            <div style="background: var(--color-bg-card); padding: 1.5rem; border-radius: 1rem; width: 100%; max-width: 560px; max-height: 92vh; overflow-y: auto; border: 1px solid rgba(0,212,255,0.2);">
+                <h3 style="margin-bottom: 0.5rem; color: var(--color-text-primary); display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-crop-alt" style="color: var(--color-neon-blue);"></i> Crop Profile Photo
+                </h3>
+                <p style="color: var(--color-text-secondary); font-size: 0.82rem; margin-bottom: 1rem;">
+                    Drag to reposition &bull; Scroll/pinch to zoom &bull; Square crop applied automatically
+                </p>
+                <div style="width: 100%; background: #0a0a0f; border-radius: 0.5rem; overflow: hidden; margin-bottom: 1rem; max-height: 380px;">
+                    <img id="cropperImage" src="${imageDataUrl}" style="display: block; max-width: 100%;">
                 </div>
-                <div style="margin-bottom: 1rem;">
-                    <label style="color: var(--color-text-secondary); display: block; margin-bottom: 0.5rem;">Brightness</label>
-                    <input type="range" id="brightness" min="50" max="150" value="100" style="width: 100%;">
-                </div>
-                <div style="margin-bottom: 1rem;">
-                    <label style="color: var(--color-text-secondary); display: block; margin-bottom: 0.5rem;">Contrast</label>
-                    <input type="range" id="contrast" min="50" max="150" value="100" style="width: 100%;">
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.25rem; justify-content: center;">
+                    <button class="btn btn-outline" id="cropRotateLeft" type="button" title="Rotate Left">
+                        <i class="fas fa-undo"></i> Rotate Left
+                    </button>
+                    <button class="btn btn-outline" id="cropRotateRight" type="button" title="Rotate Right">
+                        <i class="fas fa-redo"></i> Rotate Right
+                    </button>
+                    <button class="btn btn-outline" id="cropZoomIn" type="button" title="Zoom In">
+                        <i class="fas fa-search-plus"></i> Zoom In
+                    </button>
+                    <button class="btn btn-outline" id="cropZoomOut" type="button" title="Zoom Out">
+                        <i class="fas fa-search-minus"></i> Zoom Out
+                    </button>
+                    <button class="btn btn-outline" id="cropReset" type="button" title="Reset">
+                        <i class="fas fa-sync"></i> Reset
+                    </button>
                 </div>
                 <div style="display: flex; gap: 1rem; justify-content: flex-end;">
-                    <button class="btn btn-outline" id="cropCancel">Cancel</button>
-                    <button class="btn btn-primary" id="cropDone">
-                        <i class="fas fa-check"></i> Use Image
+                    <button class="btn btn-outline" id="cropCancel" type="button">Cancel</button>
+                    <button class="btn btn-primary" id="cropDone" type="button">
+                        <i class="fas fa-check"></i> Use Cropped Image
                     </button>
                 </div>
             </div>
@@ -232,42 +245,41 @@ class ImageHandler {
 
         document.body.appendChild(modal);
 
-        const img = document.getElementById('cropImage');
-        const brightnessInput = document.getElementById('brightness');
-        const contrastInput = document.getElementById('contrast');
+        // Initialize Cropper.js — square (1:1) aspect ratio
+        const image = document.getElementById('cropperImage');
+        const cropper = new Cropper(image, {
+            aspectRatio: 1,
+            viewMode: 1,
+            dragMode: 'move',
+            autoCropArea: 0.85,
+            restore: false,
+            guides: true,
+            center: true,
+            highlight: false,
+            cropBoxMovable: true,
+            cropBoxResizable: true,
+            toggleDragModeOnDblclick: false,
+        });
 
-        function applyFilters() {
-            const brightness = brightnessInput.value;
-            const contrast = contrastInput.value;
-            img.style.filter = `brightness(${brightness}%) contrast(${contrast}%)`;
-        }
-
-        brightnessInput.addEventListener('input', applyFilters);
-        contrastInput.addEventListener('input', applyFilters);
+        // Controls
+        document.getElementById('cropRotateLeft').onclick = () => cropper.rotate(-90);
+        document.getElementById('cropRotateRight').onclick = () => cropper.rotate(90);
+        document.getElementById('cropZoomIn').onclick = () => cropper.zoom(0.1);
+        document.getElementById('cropZoomOut').onclick = () => cropper.zoom(-0.1);
+        document.getElementById('cropReset').onclick = () => cropper.reset();
 
         document.getElementById('cropDone').onclick = () => {
-            // Create canvas to apply filters
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            const tempImg = new Image();
-
-            tempImg.onload = () => {
-                canvas.width = tempImg.width;
-                canvas.height = tempImg.height;
-
-                // Apply filters
-                ctx.filter = `brightness(${brightnessInput.value}%) contrast(${contrastInput.value}%)`;
-                ctx.drawImage(tempImg, 0, 0);
-
-                const editedImage = canvas.toDataURL('image/jpeg', 0.9);
-                callback(editedImage);
-                modal.remove();
-            };
-
-            tempImg.src = imageDataUrl;
+            const canvas = cropper.getCroppedCanvas({ width: 500, height: 500 });
+            const croppedImage = canvas.toDataURL('image/jpeg', 0.92);
+            callback(croppedImage);
+            cropper.destroy();
+            modal.remove();
         };
 
-        document.getElementById('cropCancel').onclick = () => modal.remove();
+        document.getElementById('cropCancel').onclick = () => {
+            cropper.destroy();
+            modal.remove();
+        };
     }
 }
 
@@ -534,24 +546,236 @@ class AdminDashboard {
         }, 16);
     }
 
-    async loadDashboard() {
-        try {
-            const response = await fetch(`${API_URL}/dashboard`, { credentials: 'include' });
-            const stats = await response.json();
+    // Inject dashboard CSS animations once
+    _injectDashboardStyles() {
+        if (document.getElementById('dashboardAnimStyles')) return;
+        const style = document.createElement('style');
+        style.id = 'dashboardAnimStyles';
+        style.textContent = `
+            /* ── Keyframes ── */
+            @keyframes iconPulse {
+                0%, 100% { transform: scale(1);    box-shadow: 0 0 0 0   rgba(0,212,255,0.5); }
+                50%       { transform: scale(1.1);  box-shadow: 0 0 0 5px rgba(0,212,255,0);   }
+            }
+            @keyframes itemSlideIn {
+                from { opacity: 0; transform: translateX(-14px); }
+                to   { opacity: 1; transform: translateX(0);     }
+            }
+            @keyframes visitorSlideIn {
+                from { opacity: 0; transform: translateX(14px); }
+                to   { opacity: 1; transform: translateX(0);    }
+            }
+            @keyframes spinOnce {
+                from { transform: rotate(0deg); }
+                to   { transform: rotate(360deg); }
+            }
 
+            /* ── Dashboard widget cards ── */
+            .dashboard-widgets .widget.card-3d {
+                padding: 1.25rem 1.25rem 0.5rem !important;
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+            }
+            .dashboard-widgets .widget.card-3d h3 {
+                font-size: 0.95rem;
+                font-weight: 600;
+                padding-bottom: 0.75rem;
+                border-bottom: 1px solid rgba(255,255,255,0.06);
+                margin-bottom: 0 !important;
+                flex-shrink: 0;
+            }
+
+            /* ── Scrollable panels ── */
+            .dash-scroll-panel {
+                flex: 1;
+                max-height: 400px;
+                overflow-y: auto;
+                overflow-x: hidden;
+                padding: 0.5rem 0.25rem 0.75rem 0;
+                margin-right: -0.25rem;
+                scrollbar-width: thin;
+                scrollbar-color: rgba(0,212,255,0.18) transparent;
+            }
+            .dash-scroll-panel::-webkit-scrollbar       { width: 3px; }
+            .dash-scroll-panel::-webkit-scrollbar-thumb { background: rgba(0,212,255,0.2); border-radius: 2px; }
+
+            /* ── Pulsing icon circle ── */
+            .dash-icon-circle {
+                width: 34px; height: 34px;
+                border-radius: 50%;
+                display: flex; align-items: center; justify-content: center;
+                flex-shrink: 0;
+                animation: iconPulse 2.8s ease-in-out infinite;
+            }
+
+            /* ── Activity item ── */
+            .dash-activity-item {
+                display: flex;
+                align-items: center;
+                gap: 0.8rem;
+                padding: 0.6rem 0.5rem;
+                margin: 0 0 1px 0;
+                border-radius: 8px;
+                border-bottom: 1px solid rgba(255,255,255,0.04);
+                opacity: 0;
+                animation: itemSlideIn 0.3s ease forwards;
+                transition: background 0.18s;
+            }
+            .dash-activity-item:hover  { background: rgba(0,212,255,0.04); }
+            .dash-activity-item:last-child { border-bottom: none; }
+
+            /* ── Visitor item ── */
+            .dash-visitor-item {
+                padding: 0.6rem 0.5rem;
+                margin: 0 0 1px 0;
+                border-radius: 8px;
+                border-bottom: 1px solid rgba(255,255,255,0.04);
+                opacity: 0;
+                animation: visitorSlideIn 0.3s ease forwards;
+                transition: background 0.18s;
+            }
+            .dash-visitor-item:hover     { background: rgba(139,92,246,0.06); }
+            .dash-visitor-item:last-child { border-bottom: none; }
+
+            /* ── Refresh spin ── */
+            .visitor-refresh-spin { animation: spinOnce 0.55s ease; }
+        `;
+        document.head.appendChild(style);
+    }
+
+    async loadDashboard() {
+        this._injectDashboardStyles();
+
+        // Clear any existing visitor poll
+        if (this._visitorPollId) { clearInterval(this._visitorPollId); this._visitorPollId = null; }
+
+        try {
+            // Load stats, activity, and visitors in parallel
+            const [statsRes, activityRes, visitorsRes] = await Promise.all([
+                fetch(`${API_URL}/dashboard`, { credentials: 'include' }),
+                fetch(`${API_URL}/activity`, { credentials: 'include' }),
+                fetch(`${API_URL}/visitors`, { credentials: 'include' })
+            ]);
+
+            const stats = await statsRes.json();
+            const activities = await activityRes.json().catch(() => []);
+            const visitors = await visitorsRes.json().catch(() => []);
+
+            // Animate stat numbers
             const totalProjects = document.getElementById('totalProjects');
             const totalCertificates = document.getElementById('totalCertificates');
             const totalMessages = document.getElementById('totalMessages');
             const totalSkills = document.getElementById('totalSkills');
-
-            // Animate numbers instead of just setting them
             if (totalProjects) this.animateNumber(totalProjects, stats.total_projects || 0);
             if (totalCertificates) this.animateNumber(totalCertificates, stats.total_certificates || 0);
             if (totalMessages) this.animateNumber(totalMessages, stats.total_messages || 0);
             if (totalSkills) this.animateNumber(totalSkills, stats.total_skills || 0);
+
+            // ── Activity panel ──────────────────────────────
+            this._renderActivity(activities);
+
+            // ── Visitors panel ──────────────────────────────
+            this._renderVisitors(visitors);
+
+            // Poll visitors every 30 s (lightweight — single GET, no effect on other panels)
+            this._visitorPollId = setInterval(async () => {
+                try {
+                    const icon = document.getElementById('visitorRefreshIcon');
+                    if (icon) { icon.classList.remove('visitor-refresh-spin'); void icon.offsetWidth; icon.classList.add('visitor-refresh-spin'); }
+                    const res = await fetch(`${API_URL}/visitors`, { credentials: 'include' });
+                    const data = await res.json().catch(() => []);
+                    this._renderVisitors(data);
+                } catch { }
+            }, 30000);
+
         } catch (err) {
             console.error('Dashboard load error:', err);
         }
+    }
+
+    _renderActivity(activities) {
+        const activityList = document.getElementById('activityList');
+        if (!activityList) return;
+
+        // Make panel scrollable
+        activityList.className = 'dash-scroll-panel';
+
+        const actionMeta = {
+            'LOGIN_SUCCESS': { icon: 'fa-sign-in-alt', color: '#22c55e', bg: 'rgba(34,197,94,0.12)' },
+            'LOGIN_FAILED': { icon: 'fa-times-circle', color: '#ef4444', bg: 'rgba(239,68,68,0.12)' },
+            'LOGOUT': { icon: 'fa-sign-out-alt', color: '#94a3b8', bg: 'rgba(148,163,184,0.1)' },
+            'PROFILE_UPDATE': { icon: 'fa-user-edit', color: '#00d4ff', bg: 'rgba(0,212,255,0.1)' },
+            'SKILL_ADD': { icon: 'fa-plus-circle', color: '#00d4ff', bg: 'rgba(0,212,255,0.1)' },
+            'SKILL_UPDATE': { icon: 'fa-edit', color: '#a78bfa', bg: 'rgba(167,139,250,0.1)' },
+            'SKILL_DELETE': { icon: 'fa-trash', color: '#ef4444', bg: 'rgba(239,68,68,0.12)' },
+            'PROJECT_ADD': { icon: 'fa-folder-plus', color: '#00d4ff', bg: 'rgba(0,212,255,0.1)' },
+            'PROJECT_UPDATE': { icon: 'fa-edit', color: '#a78bfa', bg: 'rgba(167,139,250,0.1)' },
+            'PROJECT_DELETE': { icon: 'fa-trash', color: '#ef4444', bg: 'rgba(239,68,68,0.12)' },
+            'CERTIFICATE_ADD': { icon: 'fa-certificate', color: '#00d4ff', bg: 'rgba(0,212,255,0.1)' },
+            'CERTIFICATE_UPDATE': { icon: 'fa-edit', color: '#a78bfa', bg: 'rgba(167,139,250,0.1)' },
+            'CERTIFICATE_DELETE': { icon: 'fa-trash', color: '#ef4444', bg: 'rgba(239,68,68,0.12)' },
+            'RESUME_UPLOAD': { icon: 'fa-file-upload', color: '#22c55e', bg: 'rgba(34,197,94,0.12)' },
+            'RESUME_DELETE': { icon: 'fa-file-excel', color: '#ef4444', bg: 'rgba(239,68,68,0.12)' },
+        };
+
+        if (!activities.length) {
+            activityList.innerHTML = '<p style="color:var(--color-text-tertiary);text-align:center;padding:2rem;">No activity yet</p>';
+            return;
+        }
+
+        activityList.innerHTML = activities.map((a, i) => {
+            const meta = actionMeta[a.action] || { icon: 'fa-circle', color: '#94a3b8', bg: 'rgba(148,163,184,0.1)' };
+            const time = new Date(a.created_at).toLocaleString('en-IN', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
+            return `
+            <div class="dash-activity-item" style="animation-delay:${i * 40}ms;">
+                <div class="dash-icon-circle" style="background:${meta.bg}; animation-delay:${i * 300}ms;">
+                    <i class="fas ${meta.icon}" style="color:${meta.color};font-size:0.72rem;"></i>
+                </div>
+                <div style="flex:1;min-width:0;">
+                    <div style="font-size:0.82rem;color:var(--color-text-primary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${a.details || a.action}</div>
+                    <div style="font-size:0.7rem;color:var(--color-text-tertiary);margin-top:0.15rem;">${time}</div>
+                </div>
+            </div>`;
+        }).join('');
+    }
+
+    _renderVisitors(visitors) {
+        const visitorsList = document.getElementById('visitorsList');
+        const visitorCount = document.getElementById('visitorCount');
+        if (visitorCount) visitorCount.textContent = visitors.length;
+        if (!visitorsList) return;
+
+        visitorsList.className = 'dash-scroll-panel';
+
+        if (!visitors.length) {
+            visitorsList.innerHTML = '<p style="color:var(--color-text-tertiary);text-align:center;padding:2rem;">No visitors yet</p>';
+            return;
+        }
+
+        const browserIcons = { Chrome: 'fa-chrome', Firefox: 'fa-firefox', Safari: 'fa-safari', Edge: 'fa-edge', Opera: 'fa-opera' };
+
+        visitorsList.innerHTML = visitors.map((v, i) => {
+            const time = new Date(v.visited_at).toLocaleString('en-IN', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
+            const duration = v.time_spent_seconds
+                ? (v.time_spent_seconds < 60 ? `${v.time_spent_seconds}s` : `${Math.floor(v.time_spent_seconds / 60)}m ${v.time_spent_seconds % 60}s`)
+                : '—';
+            const bIcon = browserIcons[v.browser] || 'fa-globe';
+            return `
+            <div class="dash-visitor-item" style="animation-delay:${i * 40}ms;">
+                <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.3rem;">
+                    <div style="width:28px;height:28px;border-radius:50%;background:rgba(139,92,246,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <i class="fab ${bIcon}" style="color:var(--color-neon-purple);font-size:0.8rem;"></i>
+                    </div>
+                    <span style="font-size:0.82rem;color:var(--color-text-primary);font-weight:500;">${v.browser} · ${v.os}</span>
+                    <span style="margin-left:auto;font-size:0.7rem;background:rgba(139,92,246,0.15);color:var(--color-neon-purple);padding:0.15rem 0.55rem;border-radius:1rem;white-space:nowrap;">⏱ ${duration}</span>
+                </div>
+                <div style="font-size:0.7rem;color:var(--color-text-tertiary);display:flex;gap:1.2rem;padding-left:36px;">
+                    <span><i class="fas fa-desktop" style="margin-right:3px;"></i>${v.screen_size}</span>
+                    <span><i class="fas fa-clock" style="margin-right:3px;"></i>${time}</span>
+                </div>
+            </div>`;
+        }).join('');
     }
 
     async loadProfile() {
@@ -590,8 +814,15 @@ class AdminDashboard {
         formData.append('phone', document.getElementById('profilePhone').value);
         formData.append('location', document.getElementById('profileLocation').value);
 
+        // Use cropped base64 image if available, else raw file
+        const croppedData = document.getElementById('profileImageData')?.value;
         const imageInput = document.getElementById('profileImageInput');
-        if (imageInput?.files[0]) {
+        if (croppedData && croppedData.startsWith('data:image')) {
+            // Convert base64 to blob for proper server upload
+            const res = await fetch(croppedData);
+            const blob = await res.blob();
+            formData.append('profileImage', blob, 'profile.jpg');
+        } else if (imageInput?.files[0]) {
             formData.append('profileImage', imageInput.files[0]);
         }
 
