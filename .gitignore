@@ -50,3 +50,6 @@ build/
 
 # Session Files
 sessions/
+
+# Confidential Files (NEVER COMMIT!)
+confidentials.md
