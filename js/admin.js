@@ -296,6 +296,9 @@ class AdminDashboard {
 
         // Setup event listeners immediately
         this.setupEventListeners();
+
+        // init() loads dashboard data — must run on both fresh load AND after login
+        this.init();
     }
 
     // Custom confirmation modal
@@ -572,10 +575,11 @@ class AdminDashboard {
 
             /* ── Dashboard widget cards ── */
             .dashboard-widgets .widget.card-3d {
-                padding: 1.25rem 1.25rem 0.5rem !important;
+                padding: 1.25rem 1.25rem 0.75rem !important;
                 display: flex;
                 flex-direction: column;
                 overflow: hidden;
+                min-height: 320px;
             }
             .dashboard-widgets .widget.card-3d h3 {
                 font-size: 0.95rem;
@@ -649,6 +653,21 @@ class AdminDashboard {
 
         // Clear any existing visitor poll
         if (this._visitorPollId) { clearInterval(this._visitorPollId); this._visitorPollId = null; }
+
+        // Show loading placeholders immediately so cards stay full height
+        const loadingHTML = `
+            ${[1, 2, 3].map(() => `
+            <div style="display:flex;align-items:center;gap:0.8rem;padding:0.7rem 0.5rem;">
+                <div style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.05);flex-shrink:0;"></div>
+                <div style="flex:1;">
+                    <div style="height:10px;width:65%;background:rgba(255,255,255,0.06);border-radius:4px;margin-bottom:6px;"></div>
+                    <div style="height:8px;width:35%;background:rgba(255,255,255,0.04);border-radius:4px;"></div>
+                </div>
+            </div>`).join('')}`;
+        const al = document.getElementById('activityList');
+        const vl = document.getElementById('visitorsList');
+        if (al) { al.className = 'dash-scroll-panel'; al.innerHTML = loadingHTML; }
+        if (vl) { vl.className = 'dash-scroll-panel'; vl.innerHTML = loadingHTML; }
 
         try {
             // Load stats, activity, and visitors in parallel
