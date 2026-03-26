@@ -707,6 +707,78 @@ app.get('/api/dashboard', requireAuth, async (req, res) => {
 });
 
 // ============================================
+// ACTIVITY LOG
+// ============================================
+
+app.get('/api/activity', requireAuth, async (req, res) => {
+    try {
+        const [rows] = await pool.execute(
+            `SELECT action, details, ip_address, created_at 
+             FROM activity_log 
+             ORDER BY created_at DESC 
+             LIMIT 30`
+        );
+        res.json(rows);
+    } catch (err) {
+        console.error('Activity log error:', err);
+        res.status(500).json([]);
+    }
+});
+
+// ============================================
+// VISITOR TRACKING
+// ============================================
+
+// Log a new portfolio visit (public)
+app.post('/api/track-visit', async (req, res) => {
+    try {
+        const { browser, os, screen_size, page } = req.body;
+        const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.ip;
+        const [result] = await pool.execute(
+            `INSERT INTO portfolio_visitors (ip_address, browser, os, screen_size, page) 
+             VALUES (?, ?, ?, ?, ?)`,
+            [ip, browser || 'Unknown', os || 'Unknown', screen_size || 'Unknown', page || '/']
+        );
+        res.json({ success: true, visit_id: result.insertId });
+    } catch (err) {
+        console.error('Track visit error:', err);
+        res.status(500).json({ success: false });
+    }
+});
+
+// Update time spent when visitor leaves (public)
+app.post('/api/track-visit-end', async (req, res) => {
+    try {
+        const { visit_id, time_spent } = req.body;
+        if (visit_id && time_spent) {
+            await pool.execute(
+                'UPDATE portfolio_visitors SET time_spent_seconds = ? WHERE id = ?',
+                [Math.min(parseInt(time_spent) || 0, 86400), parseInt(visit_id)]
+            );
+        }
+        res.json({ success: true });
+    } catch (err) {
+        res.status(500).json({ success: false });
+    }
+});
+
+// Get all visitors (admin only)
+app.get('/api/visitors', requireAuth, async (req, res) => {
+    try {
+        const [rows] = await pool.execute(
+            `SELECT id, ip_address, browser, os, screen_size, time_spent_seconds, visited_at 
+             FROM portfolio_visitors 
+             ORDER BY visited_at DESC 
+             LIMIT 50`
+        );
+        res.json(rows);
+    } catch (err) {
+        console.error('Get visitors error:', err);
+        res.status(500).json([]);
+    }
+});
+
+// ============================================
 // RESUME ROUTES
 // ============================================
 
