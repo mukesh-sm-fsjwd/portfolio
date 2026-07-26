@@ -8,64 +8,72 @@ import Certificates from './components/Certificates';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import { useAOS } from './hooks/useAOS';
-import { fetchProfile, fetchSkills, fetchProjects, fetchCertificates, fetchTechnologies } from './utils/api';
+import {
+  fetchProfile,
+  fetchSkills,
+  fetchProjects,
+  fetchCertificates,
+  fetchTechnologies,
+} from './utils/api';
 import { initVisitorTracking } from './utils/visitorTracking';
 
 export default function App() {
-  const [profile, setProfile] = useState(null);
-  const [skills, setSkills] = useState([]);
-  const [projects, setProjects] = useState([]);
+  const [profile, setProfile]           = useState(null);
+  const [skills, setSkills]             = useState([]);
+  const [projects, setProjects]         = useState([]);
   const [certificates, setCertificates] = useState([]);
   const [technologies, setTechnologies] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loaded, setLoaded]             = useState(false);
 
-  // Initialize AOS scroll animations
   useAOS('-80px');
 
-  // Init visitor tracking on mount
-  useEffect(() => {
-    initVisitorTracking();
-  }, []);
+  // Visitor tracking — non-blocking, ignore errors
+  useEffect(() => { initVisitorTracking(); }, []);
 
-  // Fetch all data in parallel
+  // Fetch every section independently using Promise.allSettled
+  // One failing API (e.g. missing table) won't block other sections
   useEffect(() => {
+    let mounted = true;
+
     async function loadAll() {
-      try {
-        const [profileData, skillsData, projectsData, certsData, techData] = await Promise.all([
-          fetchProfile(),
-          fetchSkills(),
-          fetchProjects(),
-          fetchCertificates(),
-          fetchTechnologies(),
-        ]);
-        setProfile(profileData);
-        setSkills(skillsData || []);
-        setProjects(projectsData || []);
-        setCertificates(certsData || []);
-        setTechnologies(techData || []);
-      } catch (err) {
-        console.error('Error loading portfolio data:', err);
-      } finally {
-        setLoading(false);
-      }
+      const results = await Promise.allSettled([
+        fetchProfile(),
+        fetchSkills(),
+        fetchProjects(),
+        fetchCertificates(),
+        fetchTechnologies(),
+      ]);
+
+      if (!mounted) return;
+
+      const [profileRes, skillsRes, projectsRes, certsRes, techRes] = results;
+
+      if (profileRes.status  === 'fulfilled') setProfile(profileRes.value);
+      if (skillsRes.status   === 'fulfilled') setSkills(skillsRes.value   || []);
+      if (projectsRes.status === 'fulfilled') setProjects(projectsRes.value || []);
+      if (certsRes.status    === 'fulfilled') setCertificates(certsRes.value || []);
+      if (techRes.status     === 'fulfilled') setTechnologies(techRes.value  || []);
+
+      setLoaded(true);
     }
+
     loadAll();
+    return () => { mounted = false; };
   }, []);
 
-  // Re-run AOS after content loads
+  // Re-trigger AOS for elements already in viewport once data arrives
   useEffect(() => {
-    if (!loading) {
-      // Trigger re-scan for newly rendered elements
-      setTimeout(() => {
-        document.querySelectorAll('[data-aos]').forEach(el => {
-          const rect = el.getBoundingClientRect();
-          if (rect.top < window.innerHeight - 80) {
-            el.classList.add('aos-animate');
-          }
-        });
-      }, 100);
-    }
-  }, [loading]);
+    if (!loaded) return;
+    const timer = setTimeout(() => {
+      document.querySelectorAll('[data-aos]').forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight) {
+          el.classList.add('aos-animate');
+        }
+      });
+    }, 150);
+    return () => clearTimeout(timer);
+  }, [loaded, profile, projects, skills, certificates]);
 
   return (
     <>
