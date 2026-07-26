@@ -69,7 +69,9 @@ export default function Hero({ profile }) {
         {/* Left: Text */}
         <div className="hero-text">
           <div className="hero-greeting">
-            <span className="greeting-icon" role="img" aria-label="waving hand">👋</span>
+            <span className="greeting-icon">
+              <i className="fas fa-hand-peace" aria-hidden="true"></i>
+            </span>
             <span>Hello, I&apos;m</span>
           </div>
 

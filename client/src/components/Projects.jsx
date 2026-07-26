@@ -9,14 +9,19 @@ function parseTech(technologies) {
   return [];
 }
 
+const STATUS_MAP = {
+  completed:   { cls: 'status-completed',   icon: 'fa-check-circle',  label: 'Completed' },
+  development: { cls: 'status-development', icon: 'fa-code-branch',   label: 'In Development' },
+  updating:    { cls: 'status-updating',    icon: 'fa-sync-alt',      label: 'Updating' },
+};
+
 function StatusBadge({ status }) {
-  const map = {
-    completed: { cls: 'status-completed', label: '✓ Completed' },
-    development: { cls: 'status-development', label: '⚡ In Development' },
-    updating: { cls: 'status-updating', label: '🔄 Updating' },
-  };
-  const { cls, label } = map[status] || map.development;
-  return <span className={`project-status ${cls}`}>{label}</span>;
+  const { cls, icon, label } = STATUS_MAP[status] || STATUS_MAP.development;
+  return (
+    <span className={`project-status ${cls}`}>
+      <i className={`fas ${icon}`} aria-hidden="true"></i> {label}
+    </span>
+  );
 }
 
 function TechTag({ name, iconClass }) {
@@ -46,9 +51,8 @@ function ProjectCard({ project, techMap }) {
             width: '100%', height: '100%',
             background: 'linear-gradient(135deg, rgba(0,212,255,0.15), rgba(168,85,247,0.15))',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '4rem',
           }}>
-            💼
+            <i className="fas fa-laptop-code" style={{ fontSize: '3.5rem', color: 'rgba(0,212,255,0.4)' }} aria-hidden="true"></i>
           </div>
         )}
         <StatusBadge status={status} />
@@ -113,9 +117,9 @@ function ProjectCard({ project, techMap }) {
 }
 
 const FILTERS = [
-  { value: 'all', label: 'All Projects' },
-  { value: 'completed', label: '✓ Completed' },
-  { value: 'development', label: '⚡ In Development' },
+  { value: 'all',         icon: 'fa-th-large',    label: 'All Projects' },
+  { value: 'completed',   icon: 'fa-check-circle', label: 'Completed' },
+  { value: 'development', icon: 'fa-code-branch',  label: 'In Development' },
 ];
 
 export default function Projects({ projects, technologies }) {
@@ -150,7 +154,7 @@ export default function Projects({ projects, technologies }) {
 
         {/* Filter Buttons */}
         <div className="projects-filter" role="tablist" aria-label="Filter projects">
-          {FILTERS.map(({ value, label }) => (
+          {FILTERS.map(({ value, icon, label }) => (
             <button
               key={value}
               className={`filter-btn${activeFilter === value ? ' active' : ''}`}
@@ -159,9 +163,10 @@ export default function Projects({ projects, technologies }) {
               id={`filter-${value}`}
               onClick={() => setActiveFilter(value)}
             >
-              {label}
+              <i className={`fas ${icon}`} aria-hidden="true"></i> {label}
             </button>
           ))}
+
         </div>
 
         {/* Projects Grid */}

@@ -47,12 +47,12 @@ export default function About({ profile, projectCount }) {
                     width: '100%', height: '100%',
                     background: 'linear-gradient(135deg, rgba(0,212,255,0.2), rgba(168,85,247,0.2))',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: '6rem',
                   }}
                 >
-                  👨‍💻
+                  <i className="fas fa-user-circle" style={{ fontSize: '8rem', color: 'rgba(0,212,255,0.5)' }} aria-hidden="true"></i>
                 </div>
               )}
+
 
               {/* Stats overlay on image */}
               <div className="image-overlay">
