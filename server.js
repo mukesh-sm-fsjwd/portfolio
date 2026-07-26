@@ -62,9 +62,12 @@ app.use(helmet({
     contentSecurityPolicy: false,
 }));
 
-// CORS
+// CORS — allow both the Vite dev server and production
 app.use(cors({
-    origin: process.env.ALLOWED_ORIGINS?.split(',') || 'http://localhost:3000',
+    origin: process.env.ALLOWED_ORIGINS?.split(',') || [
+        'http://localhost:3000',
+        'http://localhost:5173',  // Vite dev server
+    ],
     credentials: true
 }));
 
@@ -84,9 +87,10 @@ app.use(session({
     }
 }));
 
-// Static files
-app.use(express.static('.'));
-app.use('/uploads', express.static('uploads'));
+// Static files — serve React build (client/dist) then fall back to uploads
+const distPath = path.join(__dirname, 'client', 'dist');
+app.use(express.static(distPath));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Rate limiting
 const loginLimiter = rateLimit({
@@ -829,18 +833,33 @@ app.delete('/api/resume', requireAuth, async (req, res) => {
 });
 
 // ============================================
+// SPA FALLBACK ROUTES (React Build)
+// Must be AFTER all /api routes
+// ============================================
+app.get('/admin', (req, res) => {
+    res.sendFile(path.join(distPath, 'admin.html'));
+});
+
+app.get('*', (req, res) => {
+    // Only serve index.html for non-API routes
+    if (!req.path.startsWith('/api') && !req.path.startsWith('/uploads')) {
+        res.sendFile(path.join(distPath, 'index.html'));
+    }
+});
+
+// ============================================
 // START SERVER
 // ============================================
 
 app.listen(PORT, () => {
     console.log('\n╔══════════════════════════════════════╗');
-    console.log('║   Portfolio Server Running! 🚀       ║');
+    console.log('║   Portfolio Server Running!          ║');
     console.log('╚══════════════════════════════════════╝');
-    console.log(`\n🌐 Portfolio: http://localhost:${PORT}`);
-    console.log(`🔐 Admin: http://localhost:${PORT}/admin.html`);
-    console.log('\n📊 Database: MySQL (portfolio_db)');
-    console.log('🔒 Security: Enabled');
-    console.log('📁 Uploads: Enabled\n');
+    console.log(`\n  Portfolio: http://localhost:${PORT}`);
+    console.log(`  Admin:     http://localhost:${PORT}/admin`);
+    console.log(`  Vite Dev:  http://localhost:5173`);
+    console.log('\n  Database: MySQL (portfolio_db)');
+    console.log('  Uploads:  Enabled\n');
     console.log('Default Admin Credentials:');
     console.log('  Username: admin');
     console.log('  Password: admin123\n');
